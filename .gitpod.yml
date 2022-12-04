@@ -1,0 +1,23 @@
+tasks:
+  - name: Install NPM Version
+    command: nvm install v14.19.3
+  - name: Install meteor
+    command: curl https://install.meteor.com/?release=$( curl -so- https://raw.githubusercontent.com/RocketChat/Rocket.Chat/develop/apps/meteor/.meteor/release | cut -d@ -f2 ) | sh && exit
+  - name: Install Initial Things
+    init: npm rebuild --verbose sharp && yarn
+    command: nvm use v14.19.3 && yarn run dev
+
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: true
+    pullRequestsFromForks: true
+    addCheck: false
+    addComment: false
+    addBadge: true
+
+vscode:
+  extensions:
+    - esbenp.prettier-vscode
+    - eslint
