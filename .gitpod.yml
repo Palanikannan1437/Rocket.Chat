@@ -1,11 +1,17 @@
 tasks:
-  - name: Install NPM Version
-    command: nvm install v14.19.3
-  - name: Install meteor
-    command: curl https://install.meteor.com/?release=$( curl -so- https://raw.githubusercontent.com/RocketChat/Rocket.Chat/develop/apps/meteor/.meteor/release | cut -d@ -f2 ) | sh && exit
-  - name: Install Initial Things
-    init: npm rebuild --verbose sharp && yarn
-    command: nvm use v14.19.3 && yarn run dev
+  - name: Start Rocket.Chat
+    init: |
+      curl https://install.meteor.com/?release=$(curl -so- https://raw.githubusercontent.com/RocketChat/Rocket.Chat/develop/apps/meteor/.meteor/release | cut -d@ -f2) | sh
+      export PATH=$PATH:/home/gitpod/.meteor
+      export ROOT_URL=$(gp url 3000)
+      nvm install v14.19.3
+      nvm use v14.19.3
+      yarn
+      yarn build
+    command: |
+      export PATH=$PATH:/home/gitpod/.meteor
+      export ROOT_URL=$(gp url 3000)
+      nvm use v14.19.3 && yarn dev
 
 github:
   prebuilds:
