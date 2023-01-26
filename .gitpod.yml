@@ -1,17 +1,13 @@
 tasks:
   - name: Start Rocket.Chat
+    env:
+      PATH: $PATH:/home/gitpod/.meteor
+      ROOT_URL: $(gp url 3000)
     init: |
-      curl https://install.meteor.com/?release=$(curl -so- https://raw.githubusercontent.com/RocketChat/Rocket.Chat/develop/apps/meteor/.meteor/release | cut -d@ -f2) | sh
-      export PATH=$PATH:/home/gitpod/.meteor
-      export ROOT_URL=$(gp url 3000)
-      nvm install v14.19.3
-      nvm use v14.19.3
       yarn
       yarn build
     command: |
-      export PATH=$PATH:/home/gitpod/.meteor
-      export ROOT_URL=$(gp url 3000)
-      nvm use v14.19.3 && yarn dev
+      yarn dev
 
 github:
   prebuilds:
@@ -23,7 +19,18 @@ github:
     addComment: false
     addBadge: true
 
+ports:
+  - port: 3001
+    onOpen: ignore
+    name: mongo-db
+    visibility: public
+  - port: 3000
+    onOpen: ignore
+    name: rc-server
+    visibility: public
+
 vscode:
   extensions:
+    - dbaeumer.vscode-eslint
     - esbenp.prettier-vscode
-    - eslint
+    - akosyakov.gitpod-monitor
