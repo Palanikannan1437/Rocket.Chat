@@ -1,8 +1,8 @@
 tasks:
   - name: Start Rocket.Chat
-    env:
-      PATH: $PATH:/home/gitpod/.meteor
-      ROOT_URL: $(gp url 3000)
+    before:
+      eval $(gp env -e PATH=$PATH:/home/gitpod/.meteor)
+      eval $(gp env -e ROOT_URL=$(gp url 3000))
     init: |
       yarn
       yarn build
@@ -28,6 +28,9 @@ ports:
     onOpen: ignore
     name: rc-server
     visibility: public
+
+image:
+  file: .gitpod.dockerfile
 
 vscode:
   extensions:
